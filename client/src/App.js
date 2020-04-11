@@ -1,44 +1,26 @@
+import React, {Component} from 'react';
+import AtlasMenu from "./components/AtlasMenu";
+import { makeStyles } from '@material-ui/core/styles';
+import MainContent from "./components/MainContent";
 
-import React, { useState, useEffect } from "react";
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+    }
+}));
 
-// SERVICES
-import patientService from './services/patientService';
+export default function App() {
+    const classes = useStyles();
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-function App() {
-    const [patientList, setPatients] = useState(null);
-
-    useEffect(() => {
-        if(!patientList) {
-            getPatients();
-        }
-    });
-
-    const getPatients = async () => {
-        let res = await patientService.getAll();
-        console.log(res);
-        setPatients(res);
-    };
-
-    const renderPatient = patient => {
-        return (
-            <li key={patient._id} className="list__item patient">
-                <h3 className="patient__name">{patient.name}</h3>
-                <p className="patient__description">{patient.description}</p>
-            </li>
-        );
+    const handleDrawerOpenState = (state) => {
+        setDrawerOpen(state);
     };
 
     return (
-        <div className="App">
-            <ul className="list">
-                {(patientList && patientList.length > 0) ? (
-                    patientList.map(patient => renderPatient(patient))
-                ) : (
-                    <p>No patients found</p>
-                )}
-            </ul>
+        <div className={classes.root}>
+            <AtlasMenu drawerOpen={drawerOpen} onChangeDrawerOpen={handleDrawerOpenState} />
+            <MainContent drawerOpen={drawerOpen}/>
         </div>
-    );
+    )
 }
-
-export default App;
