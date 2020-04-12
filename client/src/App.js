@@ -1,26 +1,18 @@
 import React, {Component} from 'react';
-import AtlasMenu from "./components/AtlasMenu";
-import { makeStyles } from '@material-ui/core/styles';
-import MainContent from "./components/MainContent";
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    }
-}));
+import MainPage from './components/pages/Main';
+import InsurancePlansPage from './components/pages/InsurancePlans';
+import AppointmentsPage from './components/pages/Appointments';
 
 export default function App() {
-    const classes = useStyles();
-    const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-    const handleDrawerOpenState = (state) => {
-        setDrawerOpen(state);
-    };
-
     return (
-        <div className={classes.root}>
-            <AtlasMenu drawerOpen={drawerOpen} onChangeDrawerOpen={handleDrawerOpenState} />
-            <MainContent drawerOpen={drawerOpen}/>
-        </div>
+        <main>
+            <Switch>
+                <Route path="/" component={MainPage} />
+                <Route path="/convenios" component={InsurancePlansPage} />
+                <Route path="/consultas" component={AppointmentsPage} />
+            </Switch>
+        </main>
     )
 }
